@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        #demo {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .submit-btn {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form name="myForm" onsubmit="return validate()">
+            <h1>Form Validation</h1>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" name="email" id="email" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" name="phone" id="phone" />
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <select name="subject" id="subject">
+                    <option value="0" selected>Select</option>
+                    <option value="1">HTML</option>
+                    <option value="2">JavaScript</option>
+                    <option value="3">CSS</option>
+                    <option value="4">JSP</option>
+                </select>
+            </div>
+
+            <p id="demo"></p>
+
+            <input type="submit" value="Submit" class="submit-btn" />
+        </form>
+    </div>
+
+    <script>
+        const demo = document.getElementById("demo");
+
+        function validate() {
+            let text;
+
+            if (document.myForm.name.value.trim() === "") {
+                text = "Name cannot be empty";
+                demo.innerHTML = text;
+                document.myForm.name.focus();
+                return false;
+            }
+
+            if (document.myForm.email.value.trim() === "") {
+                text = "E-mail cannot be empty";
+                demo.innerHTML = text;
+                document.myForm.email.focus();
+                return false;
+            }
+
+            const emailID = document.myForm.email.value;
+            const atposn = emailID.indexOf("@");
+            const dotposn = emailID.lastIndexOf(".");
+
+            if (atposn < 3 || (dotposn - atposn < 6)) {
+                text = "Please enter a valid email ID";
+                demo.innerHTML = text;
+                document.myForm.email.focus();
+                return false;
+            }
+
+            const phone = document.myForm.phone.value.trim();
+
+            if (phone === "" || isNaN(phone) || phone.length !== 11) {
+                text = "Please enter a valid 11-digit phone number";
+                demo.innerHTML = text;
+                document.myForm.phone.focus();
+                return false;
+            }
+
+            if (document.myForm.subject.value === "0") {
+                text = "Please select a subject";
+                demo.innerHTML = text;
+                return false;
+            }
+
+            demo.innerHTML = "";
+            alert("Form submitted successfully!");
+            return true;
+        }
+    </script>
+
+</body>
+
+</html>
